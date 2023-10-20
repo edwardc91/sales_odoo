@@ -8,4 +8,7 @@
     <!-- Administrar child menus -->
     <menuitem name="Compradores" id="salescave_menu_buyers" parent="salescave_menu_admin"
               action="salescave_buyer_action_window" sequence="100"/>
+
+    <menuitem name="Productos" id="salescave_menu_products" parent="salescave_menu_admin"
+              action="salescave_product_action_window" sequence="200"/>
 </odoo>
