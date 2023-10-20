@@ -73,6 +73,10 @@ class ProductPurchase(models.Model):
          'La cantidad comprada del producto debe ser mayor que cero'),
         ('positive_cost_x_product', 'CHECK(cost_x_product>=0)',
          'El precio de compra por producto no puede ser negativo'),
+        ('positive_cost_x_product', 'CHECK(cost_x_product>=0)',
+         'El precio de venta por producto no puede ser negativo'),
+        ('sales_price_higher_than_cost', 'CHECK(sale_price_x_product>cost_x_product)',
+         'El precio de venta por producto debe ser mayor que el precio de compra'),
     ]
 
     lot_id = fields.Many2one('salescave.lot', string='Lote')
@@ -120,6 +124,13 @@ class ProductPurchase(models.Model):
     def _compute_planned_total_gain(self):
         for record in self:
             record.planned_total_gain = record.planned_gain_x_product * record.quantity
+            
+    def name_get(self):
+        result = []
+        for record in self:
+            rec_name = record.product_id.name
+            result.append((record.id, rec_name))
+        return result
 
 
 class Expense(models.Model):
