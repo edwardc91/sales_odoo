@@ -14,6 +14,9 @@ class Lot(models.Model):
 
     expenses_ids = fields.One2many('salescave.pexpense', 'lot_id',
                                    string='Gastos')
+    
+    sales_ids = fields.One2many('salescave.sale', 'lot_id',
+                                   string='Ventas')
 
     currency_id = fields.Many2one('res.currency', string='Moneda de compra')
     
