@@ -1,0 +1,71 @@
+version: '3.3'
+
+services:
+  # Web Application Service Definition
+  # --------
+  #
+  # All of the information needed to start up an odoo web
+  # application container.
+  # nginx:
+  #   container_name: geodesa_intranet_nginx_prod
+  #   build:
+  #     context: .
+  #     dockerfile: docker/nginx/Dockerfile
+  #   ports:
+  #     - 81:81
+  web:
+    container_name: sales_odoo
+    build:
+      context: . 
+      dockerfile: docker/odoo/Dockerfile
+      args:
+        - http_proxy=${HTTP_PROXY}
+        - https_proxy=${HTTPS_PROXY}
+    depends_on:
+        - db
+
+    # Port Mapping
+    # --------
+    ports:
+      - 9001:8069
+
+    # Data Volumes
+    # --------
+    volumes:
+      - ./config:/etc/odoo
+      - ./addons:/mnt/extra-addons
+
+    # Odoo Environment Variables
+    # --------
+    environment:
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=odoo
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    restart: unless-stopped
+
+  # Database Container Service Definition
+  # --------
+  #
+  # All of the information needed to start up a postgresql
+  # container.
+  db:
+    container_name: sales_odoo_postgres
+    image: postgres:13
+    
+    ports:
+      - 9010:5432
+    # Database Environment Variables
+    # --------
+    environment:
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_USER=odoo
+      - POSTGRES_DB=postgres  # Leave this set to postgres
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  dbdata:
+    name: sales-odoo-dbdata
+
