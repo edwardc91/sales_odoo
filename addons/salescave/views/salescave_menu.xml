@@ -1,0 +1,11 @@
+<odoo>
+    <menuitem name="Ventas" id="salescave_menu_root"/>
+
+
+    <!-- Module submenus -->
+    <menuitem name="Administrar" id="salescave_menu_admin" parent="salescave_menu_root"/>
+
+    <!-- Administrar child menus -->
+    <menuitem name="Compradores" id="salescave_menu_buyers" parent="salescave_menu_admin"
+              action="salescave_buyer_action_window" sequence="100"/>
+</odoo>

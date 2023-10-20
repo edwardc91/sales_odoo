@@ -1,0 +1,32 @@
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="salescave_buyer_action_window">
+            <field name="name">Compradores</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">kanban,tree,form,activity</field>
+            <field name="context">{'res_partner_search_mode': 'customer', 'default_is_company': False, 'default_type': 'contact'}</field>
+            <field name="domain">[('is_company', '=', False)]</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="salescave_buyer_action_kanban">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="base.res_partner_kanban_view"/>
+            <field name="act_window_id" ref="salescave_buyer_action_window"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="salescave_buyer_action_tree">
+            <field name="sequence" eval="4"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="base.view_partner_tree"/>
+            <field name="act_window_id" ref="salescave_buyer_action_window"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="salescave_buyer_action_form">
+            <field name="sequence" eval="4"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="base.view_partner_form"/>
+            <field name="act_window_id" ref="salescave_buyer_action_window"/>
+        </record>
+    </data>
+</odoo>
