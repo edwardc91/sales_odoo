@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="salescave_lot_list">
+            <field name="name">Lots List</field>
+            <field name="model">salescave.lot</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="purchase_date"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>
