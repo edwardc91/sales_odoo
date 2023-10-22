@@ -6,6 +6,7 @@ from odoo import models, fields, api
 class Sale(models.Model):
     _name = 'salescave.sale'
     _description = 'Buyer sale for a Lot'
+    _order = 'sale_date desc'
 
     lot_id = fields.Many2one('salescave.lot', string='Lote')
     buyer_id = fields.Many2one('res.partner', string='Comprador')
@@ -27,7 +28,6 @@ class SaleProduct(models.Model):
     sale_id = fields.Many2one('salescave.sale', string='Venta')
     buyer_id = fields.Many2one('res.partner', string='Comprador', domain=[
                                ('is_company', '=', False)], required=True)
-    sale_date = fields.Date(string='Fecha de venta', required=True)
 
     sale_id = fields.Many2one(
         'salescave.product.purchase', string='Venta', required=True)
@@ -45,6 +45,7 @@ class SaleProduct(models.Model):
 class SalePayment(models.Model):
     _name = 'salescave.sale.payment'
     _description = 'Buyer sale for a Lot'
+    _order = 'payment_date desc'
 
     _sql_constraints = [
         ('positive_quantity', 'CHECK(quantity>0)',

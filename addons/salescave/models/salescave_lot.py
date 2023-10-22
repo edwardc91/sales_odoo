@@ -6,6 +6,7 @@ from odoo import models, fields, api
 class Lot(models.Model):
     _name = 'salescave.lot'
     _description = 'Purchase lot'
+    _order = 'purchase_date desc'
 
     purchase_date = fields.Date(string='Fecha de compra', required=True)
 
@@ -27,8 +28,11 @@ class Lot(models.Model):
     total_investment = fields.Monetary(
         string='Total investment', compute='_compute_total_investment')
     
+    total_investment_expenses = fields.Monetary(
+        string='Total investment/expenses', compute='_compute_total_investment_expenses')
+    
     planned_total_sale_value = fields.Monetary(
-        string='Total investment', compute='_compute_planned_total_sale_value')
+        string='Total planned sale', compute='_compute_planned_total_sale_value')
     
     @api.depends('expenses_ids')
     def _compute_total_expenses(self):
@@ -57,15 +61,26 @@ class Lot(models.Model):
                 
             record.total_sale_value = total_sale_value
             
-    @api.depends('product_purchases_ids')
+    @api.depends('total_investment', 'total_expenses')
+    def _compute_total_investment_expenses(self):
+        for record in self:
+            record.total_investment_expenses = record.total_investment + record.total_expenses
+            
+    @api.depends('product_purchases_ids', 'total_expenses')
     def _compute_planned_total_sale_value(self):
         for record in self:
             planned_total_sale_value = 0
             for purchase in record.product_purchases_ids:
                 planned_total_sale_value += purchase.planned_total_gain
                 
-            record.planned_total_sale_value = planned_total_sale_value
-
+            record.planned_total_sale_value = planned_total_sale_value - record.total_expenses
+            
+    def name_get(self):
+        result = []
+        for record in self:
+            rec_name = "Lote {}".format(record.purchase_date)
+            result.append((record.id, rec_name))
+        return result
 
 class ProductPurchase(models.Model):
     _name = 'salescave.product.purchase'
@@ -100,7 +115,7 @@ class ProductPurchase(models.Model):
         string='Costo total', compute='_compute_total_cost')
     
     total_sale_price = fields.Monetary(
-        string='Valor de venta total', compute='_compute_total_sale_price')
+        string='Valor de venta por producto', compute='_compute_total_sale_price')
     
     planned_gain_x_product = fields.Monetary(
         string='Valor de venta total', compute='_compute_planned_gain_x_product')
