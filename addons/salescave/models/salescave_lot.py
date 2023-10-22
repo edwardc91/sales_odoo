@@ -13,7 +13,7 @@ class Lot(models.Model):
     product_purchases_ids = fields.One2many('salescave.product.purchase', 'lot_id',
                                             string='Compras')
 
-    expenses_ids = fields.One2many('salescave.pexpense', 'lot_id',
+    expenses_ids = fields.One2many('salescave.expense', 'lot_id',
                                    string='Gastos')
     
     sales_ids = fields.One2many('salescave.sale', 'lot_id',
@@ -71,7 +71,7 @@ class Lot(models.Model):
         for record in self:
             planned_total_sale_value = 0
             for purchase in record.product_purchases_ids:
-                planned_total_sale_value += purchase.planned_total_gain
+                planned_total_sale_value += purchase.planned_gain_x_product
                 
             record.planned_total_sale_value = planned_total_sale_value - record.total_expenses
             
@@ -138,7 +138,7 @@ class ProductPurchase(models.Model):
         for record in self:
             record.planned_gain_x_product = record.sale_price_x_product - record.cost_x_product
             
-    @api.depends('gain_x_product', 'quantity')
+    @api.depends('planned_gain_x_product', 'quantity')
     def _compute_planned_total_gain(self):
         for record in self:
             record.planned_total_gain = record.planned_gain_x_product * record.quantity

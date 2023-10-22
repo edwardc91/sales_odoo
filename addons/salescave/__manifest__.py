@@ -28,6 +28,7 @@
     'data': [
         'security/salescave_groups.xml',
         'security/ir.model.access.csv',
+        'views/salescave_lot_views.xml',
         'views/salescave_product_views.xml',
         'views/res_partner_views.xml',
         'views/salescave_menu.xml',

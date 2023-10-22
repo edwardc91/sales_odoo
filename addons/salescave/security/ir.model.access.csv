@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_salescave.product_manager,access.salescave.product.manager,model_salescave_product,salescave_group_manager,1,1,1,1
+access_salescave.lot_manager,access.salescave.lot.manager,model_salescave_lot,salescave_group_manager,1,1,1,1

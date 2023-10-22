@@ -10,5 +10,41 @@
                 </tree>
             </field>
         </record>
+
+        <record id="salescave_lot_form" model="ir.ui.view">
+            <field name="name">Lot Form</field>
+            <field name="model">salescave.lot</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title" colspan="5">
+                            <div>
+                                <b>Fecha del lote:</b>
+                            </div>
+                            <h1>
+                                <field name="purchase_date" placeholder="Introduzca la fecha de compra del lote"/>
+                            </h1>           
+                        </div>
+                         <notebook colspan="4">
+                            <page string="General" name="general_page">
+                            </page>
+                            <page string="Productos/Gastos" name="products_expenses_page">
+                            </page>
+                            <page string="Ventas" name="sales_page">
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="salescave_lot_action_window">
+            <field name="name">Lotes</field>
+            <field name="res_model">salescave.lot</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain"></field>
+            <field name="context"></field>
+        </record>
     </data>
 </odoo>
