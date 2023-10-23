@@ -1,3 +1,8 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_salescave.product_manager,access.salescave.product.manager,model_salescave_product,salescave_group_manager,1,1,1,1
 access_salescave.lot_manager,access.salescave.lot.manager,model_salescave_lot,salescave_group_manager,1,1,1,1
+access_salescave.product.purchase_manager,access.salescave.product.purchase.manager,model_salescave_product_purchase,salescave_group_manager,1,1,1,1
+access_salescave.expense_manager,access.salescave.expense.manager,model_salescave_expense,salescave_group_manager,1,1,1,1
+access_salescave.sale_manager,access.salescave.sale.manager,model_salescave_sale,salescave_group_manager,1,1,1,1
+access_salescave.sale.product_manager,access.salescave.sale.product.manager,model_salescave_sale_product,salescave_group_manager,1,1,1,1
+access_salescave.sale.payment_manager,access.salescave.sale.payment.manager,model_salescave_sale_payment,salescave_group_manager,1,1,1,1
