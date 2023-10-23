@@ -41,41 +41,7 @@
                             </page>
                             <page string="Productos/Gastos" name="products_expenses_page">
                                 <h3>Productos</h3>
-                                <field name="product_purchases_ids">
-                                    <tree>
-                                        <field name="product_id"/>
-                                        <field name="quantity"/>
-                                        <field name="cost_x_product"/>
-                                        <field name="total_cost"/>
-                                        <field name="sale_price_x_product"/>
-                                        <field name="total_sale_price"/>
-                                    </tree>
-
-                                    <form>
-                                        <div class="oe_title">
-                                            <div>
-                                                <b>Producto:</b>
-                                            </div>
-                                            <h1>
-                                                <field name="product_id" placeholder="Introduzca el producto"/> 
-                                            </h1>     
-                                        </div>
-                                        <group name="group_top">
-                                            <group string="Compra" name="group_left">
-                                                <field name="quantity"/>
-                                                <field name="cost_x_product"/>
-                                                <field name="sale_price_x_product"/>
-                                            </group>
-
-                                            <group string="Calculos" name="group_right">
-                                                <field name="total_cost"/>
-                                                <field name="total_sale_price"/>
-                                                <field name="planned_gain_x_product"/>
-                                                <field name="planned_total_gain"/>
-                                            </group>
-                                        </group>
-                                    </form>
-                                </field>
+                                <field name="product_purchases_ids" context="{'form_view_ref': 'salescave.salescave_product_purchase_form', 'tree_view_ref': 'salescave.salescave_product_purchase_list'}"/>
                                 <hr/>
                                 <h3>Gastos</h3>
                                 <field name="expenses_ids">
