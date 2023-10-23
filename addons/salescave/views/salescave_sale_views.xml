@@ -1,0 +1,55 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="salescave_sale_list">
+            <field name="name">Sales List</field>
+            <field name="model">salescave.sale</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sale_date"/>
+                    <field name="buyer_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="salescave_sale_form" model="ir.ui.view">
+            <field name="name">Sale Form</field>
+            <field name="model">salescave.sale</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <div>
+                                <b>Fecha de venta:</b>
+                            </div>
+                            <h1>
+                                <field name="sale_date" placeholder="Introduzca la fecha de venta"/> 
+                            </h1> 
+                             <div>
+                                <b>Comprador:</b>
+                            </div>
+                            <h4><field name="buyer_id"/></h4>    
+                        </div>
+                        <group name="group_top" string="Datos de la venta">
+                            <group name="group_left">
+                            </group>
+
+                            <group name="group_right">
+                                
+                            </group>
+                        </group>
+                        <h3>Productos</h3>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="salescave_sale_action_window">
+            <field name="name">Sales</field>
+            <field name="res_model">salescave.sale</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain"></field>
+            <field name="context"></field>
+        </record>
+    </data>
+</odoo>

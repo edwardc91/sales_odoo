@@ -68,6 +68,8 @@
                                 </field>
                             </page>
                             <page string="Ventas" name="sales_page">
+                                <h3>Ventas</h3>
+                                <field name="sales_ids" context="{'form_view_ref': 'salescave.salescave_sale_form', 'tree_view_ref': 'salescave.salescave_sale_list'}"/>
                             </page>
                         </notebook>
                     </sheet>
