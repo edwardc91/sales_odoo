@@ -71,7 +71,7 @@ class Lot(models.Model):
         for record in self:
             planned_total_sale_value = 0
             for purchase in record.product_purchases_ids:
-                planned_total_sale_value += purchase.planned_gain_x_product
+                planned_total_sale_value += purchase.planned_total_gain
                 
             record.planned_total_sale_value = planned_total_sale_value - record.total_expenses
             
@@ -110,18 +110,21 @@ class ProductPurchase(models.Model):
     sale_price_x_product = fields.Monetary(
         string='Precio de venta por producto', required=True)
     
+    sales_products_ids = fields.One2many('salescave.sale.product', 'product_purchase_id',
+                                            string='Ventas productos')
+    
     # compute field
     total_cost = fields.Monetary(
         string='Costo total', compute='_compute_total_cost')
     
     total_sale_price = fields.Monetary(
-        string='Valor de venta por producto', compute='_compute_total_sale_price')
+        string='Valor de venta total', compute='_compute_total_sale_price')
     
     planned_gain_x_product = fields.Monetary(
-        string='Valor de venta total', compute='_compute_planned_gain_x_product')
+        string='Ganancia planificada por producto', compute='_compute_planned_gain_x_product')
     
     planned_total_gain = fields.Monetary(
-        string='Valor de venta total', compute='_compute_planned_total_gain')
+        string='Ganancia total planificada', compute='_compute_planned_total_gain')
 
     @api.depends('cost_x_product', 'quantity')
     def _compute_total_cost(self):
@@ -152,7 +155,7 @@ class ProductPurchase(models.Model):
 
 
 class Expense(models.Model):
-    _name = 'salescave.exspense'
+    _name = 'salescave.expense'
     _description = 'Lot expense'
 
     _sql_constraints = [

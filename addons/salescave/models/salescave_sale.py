@@ -29,7 +29,7 @@ class SaleProduct(models.Model):
     buyer_id = fields.Many2one('res.partner', string='Comprador', domain=[
                                ('is_company', '=', False)], required=True)
 
-    sale_id = fields.Many2one(
+    product_purchase_id = fields.Many2one(
         'salescave.product.purchase', string='Venta', required=True)
     quantity = fields.Integer(
         string='Cantidad vendida', default=1, required=True)
