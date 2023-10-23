@@ -23,16 +23,16 @@ class Lot(models.Model):
     
     # compute fields
     total_expenses = fields.Monetary(
-        string='Total expenses', compute='_compute_total_expenses')
+        string='Gastos totales', compute='_compute_total_expenses')
     
     total_investment = fields.Monetary(
-        string='Total investment', compute='_compute_total_investment')
+        string='Inversión total', compute='_compute_total_investment')
     
     total_investment_expenses = fields.Monetary(
-        string='Total investment/expenses', compute='_compute_total_investment_expenses')
+        string='Total inversión/gastos', compute='_compute_total_investment_expenses')
     
     planned_total_sale_value = fields.Monetary(
-        string='Total planned sale', compute='_compute_planned_total_sale_value')
+        string='Total ganancia planificada', compute='_compute_planned_total_sale_value')
     
     @api.depends('expenses_ids')
     def _compute_total_expenses(self):
@@ -152,7 +152,7 @@ class ProductPurchase(models.Model):
 
 
 class Expense(models.Model):
-    _name = 'salescave.expense'
+    _name = 'salescave.exspense'
     _description = 'Lot expense'
 
     _sql_constraints = [
@@ -162,7 +162,7 @@ class Expense(models.Model):
 
     lot_id = fields.Many2one('salescave.lot', string='Lote')
 
-    description = fields.Text(string='Descripción del gasto', required=True)
+    name = fields.Char(string='Descripción del gasto', required=True)
 
     currency_id = fields.Many2one('res.currency', string='Moneda de compra')
     value = fields.Monetary(string='Valor del gasto', required=True)
