@@ -76,8 +76,6 @@ class SaleProduct(models.Model):
     ]
 
     sale_id = fields.Many2one('salescave.sale', string='Venta')
-    buyer_id = fields.Many2one('res.partner', string='Comprador', domain=[
-                               ('is_company', '=', False)], required=True)
 
     product_purchase_id = fields.Many2one(
         'salescave.product.purchase', string='Venta', required=True)
@@ -113,8 +111,11 @@ class SaleProduct(models.Model):
     @api.depends('total_sale', 'product_purchase_id')
     def _compute_total_gain(self):
         for record in self:
+            total_gain = 0
             if record.product_purchase_id:
-                record.total_gain = record.total_sale - (record.product_purchase_id.cost_x_product * record.quantity)
+                total_gain = record.total_sale - (record.product_purchase_id.cost_x_product * record.quantity)
+            
+            record.total_gain = total_gain
                 
     @api.depends('payments_ids')
     def _compute_total_paid(self):
@@ -127,8 +128,10 @@ class SaleProduct(models.Model):
             
     @api.depends('total_paid', 'total_sale')
     def _compute_debt(self):
-        for record in self:     
-            record.total_debt = record.total_sale - record.total_paid
+        for record in self:   
+            total_sale = record.total_sale if record.total_sale else 0
+            total_paid = record.total_paid if record.total_paid else 0
+            record.debt = total_sale - total_paid
 
 
 class SalePayment(models.Model):

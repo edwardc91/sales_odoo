@@ -1,0 +1,59 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="salescave_sale_product_list">
+            <field name="name">Sales Product List</field>
+            <field name="model">salescave.sale.product</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="product_purchase_id"/>
+                    <field name="quantity"/>
+                    <field name="sale_price_x_product"/>
+                    <field name="total_sale"/>
+                    <field name="total_gain"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="salescave_sale_product_form" model="ir.ui.view">
+            <field name="name">Sale Product Form</field>
+            <field name="model">salescave.sale.product</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <div>
+                                <b>Producto:</b>
+                            </div>
+                            <h1>
+                                <field name="product_purchase_id" options="{'no_quick_create': True}" placeholder="Escoja el producto"/> 
+                            </h1>  
+                        </div>
+                        <group name="group_top">
+                            <group name="group_left" string="Detalles de la venta">
+                                <field name="quantity"/>
+                                <field name="sale_price_x_product"/>
+                            </group>
+
+                            <group name="group_right" string="Calculos">
+                                <field name="total_sale"/>
+                                <field name="total_gain"/>
+                                <field name="total_paid"/>
+                                <field name="debt"/>
+                            </group>
+                        </group>
+                        <h3>Pagos</h3>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="salescave_sale_action_window">
+            <field name="name">Sales</field>
+            <field name="res_model">salescave.sale</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain"></field>
+            <field name="context"></field>
+        </record>
+    </data>
+</odoo>

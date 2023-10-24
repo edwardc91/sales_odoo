@@ -29,7 +29,7 @@
                             </div>
                             <h4><field name="buyer_id"/></h4>    
                         </div>
-                        <group name="group_top" string="Datos de la venta">
+                        <group name="group_top" string="Detalles de la venta">
                             <group name="group_left">
                             </group>
 
@@ -38,6 +38,7 @@
                             </group>
                         </group>
                         <h3>Productos</h3>
+                        <field name="sales_products_ids" context="{'form_view_ref': 'salescave.salescave_sale_product_form', 'tree_view_ref': 'salescave.salescave_sale_product_list'}"/>
                     </sheet>
                 </form>
             </field>
