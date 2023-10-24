@@ -42,15 +42,16 @@
                             </group>
                         </group>
                         <h3>Pagos</h3>
+                        <field name="payments_ids" context="{'form_view_ref': 'salescave.salescave_sale_payment_form', 'tree_view_ref': 'salescave.salescave_sale_payment_list'}"/>
                     </sheet>
                 </form>
             </field>
         </record>
 
         <!-- actions opening views on models -->
-        <record model="ir.actions.act_window" id="salescave_sale_action_window">
-            <field name="name">Sales</field>
-            <field name="res_model">salescave.sale</field>
+        <record model="ir.actions.act_window" id="salescave_sale_product_action_window">
+            <field name="name">Sales Products</field>
+            <field name="res_model">salescave.sale.product</field>
             <field name="view_mode">tree,form</field>
             <field name="domain"></field>
             <field name="context"></field>

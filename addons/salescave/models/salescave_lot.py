@@ -34,6 +34,15 @@ class Lot(models.Model):
     planned_total_sale_value = fields.Monetary(
         string='Total ganancia planificada', compute='_compute_planned_total_sale_value')
     
+    real_total_sale_value = fields.Monetary(
+        string='Total ganancia real', compute='_compute_real_total_sale_value')
+    
+    restored_investment = fields.Monetary(
+        string='Inversión recuperada', compute='_compute_restored_investment')
+    
+    real_gain = fields.Monetary(
+        string='Ganancia real', compute='_compute_restored_investment')
+    
     @api.depends('expenses_ids')
     def _compute_total_expenses(self):
         for record in self:
@@ -74,6 +83,18 @@ class Lot(models.Model):
                 planned_total_sale_value += purchase.planned_total_gain
                 
             record.planned_total_sale_value = planned_total_sale_value - record.total_expenses
+            
+    @api.depends('product_purchases_ids.restored_investment', 'product_purchases_ids.real_gain')
+    def _compute_restored_investment(self):
+        for record in self:
+            restored_investment = 0
+            real_gain = 0
+            for sale in record.sales_products_ids:
+                restored_investment += sale.restored_investment 
+                real_gain += sale.real_gain
+            
+            record.restored_investment = restored_investment
+            record.real_gain = real_gain
             
     def name_get(self):
         result = []
@@ -125,6 +146,12 @@ class ProductPurchase(models.Model):
     
     planned_total_gain = fields.Monetary(
         string='Ganancia total planificada', compute='_compute_planned_total_gain')
+    
+    restored_investment = fields.Monetary(
+        string='Inversión recuperada', compute='_compute_restored_investment')
+    
+    real_gain = fields.Monetary(
+        string='Ganancia real', compute='_compute_restored_investment')
 
     @api.depends('cost_x_product', 'quantity')
     def _compute_total_cost(self):
@@ -145,6 +172,18 @@ class ProductPurchase(models.Model):
     def _compute_planned_total_gain(self):
         for record in self:
             record.planned_total_gain = record.planned_gain_x_product * record.quantity
+            
+    @api.depends('sales_products_ids')
+    def _compute_restored_investment(self):
+        for record in self:
+            restored_investment = 0
+            real_gain = 0
+            for sale in record.sales_products_ids:
+                restored_investment += sale.restored_investment 
+                real_gain += sale.real_gain
+            
+            record.restored_investment = restored_investment
+            record.real_gain = real_gain
             
     def name_get(self):
         result = []

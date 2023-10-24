@@ -93,6 +93,9 @@ class SaleProduct(models.Model):
     total_sale = fields.Monetary(
         string='Valor total de la venta', compute='_compute_total_sale')
     
+    gain_x_product = fields.Monetary(
+        string='Ganancia por producto', compute='_compute_gain_x_product')
+    
     total_gain = fields.Monetary(
         string='Ganancia total', compute='_compute_total_gain')
     
@@ -102,11 +105,26 @@ class SaleProduct(models.Model):
     debt = fields.Monetary(
         string='Deuda', compute='_compute_debt')
     
+    restored_investment = fields.Monetary(
+        string='Inversión recuperada', compute='_compute_restored_investment')
+    
+    real_gain = fields.Monetary(
+        string='Ganancia real', compute='_compute_restored_investment')
+    
     
     @api.depends('sale_price_x_product', 'quantity')
     def _compute_total_sale(self):
         for record in self:
             record.total_sale = record.sale_price_x_product * record.quantity
+            
+    @api.depends('sale_price_x_product', 'product_purchase_id')
+    def _compute_gain_x_product(self):
+        for record in self:
+            gain_x_product = 0
+            if record.product_purchase_id:
+                gain_x_product = record.sale_price_x_product - record.product_purchase_id.cost_x_product
+                
+            record.gain_x_product = gain_x_product
             
     @api.depends('total_sale', 'product_purchase_id')
     def _compute_total_gain(self):
@@ -132,6 +150,35 @@ class SaleProduct(models.Model):
             total_sale = record.total_sale if record.total_sale else 0
             total_paid = record.total_paid if record.total_paid else 0
             record.debt = total_sale - total_paid
+            
+    @api.depends('total_paid', 'gain_x_product', 'product_purchase_id')
+    def _compute_restored_investment(self):
+        for record in self:   
+            quantity = record.quantity
+            rest = record.total_paid if record.total_paid else 0
+            restored_investment = 0
+            real_gain = 0
+            cost_x_product = record.product_purchase_id.cost_x_product
+            gain_x_product =  record.gain_x_product
+            while quantity > 0 and rest > 0:
+                if rest >= cost_x_product:
+                    restored_investment += cost_x_product
+                    rest -= cost_x_product
+                    if rest >= gain_x_product:
+                        real_gain += gain_x_product
+                        rest -= gain_x_product
+                    else:
+                        real_gain += rest
+                        rest = 0
+                else:
+                    restored_investment += rest
+                    rest = 0
+                    
+                quantity -= 1
+                
+            record.restored_investment = restored_investment
+            record.real_gain = real_gain
+            
 
 
 class SalePayment(models.Model):
@@ -150,4 +197,4 @@ class SalePayment(models.Model):
 
     currency_id = fields.Many2one('res.currency', string='Moneda de venta')
     payment = fields.Monetary(
-        string='Precio venta por producto', required=True)
+        string='Cantidad pago', required=True)
