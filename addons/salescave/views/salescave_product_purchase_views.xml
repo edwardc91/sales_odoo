@@ -41,6 +41,8 @@
                                 <field name="total_sale_price"/>
                                 <field name="planned_gain_x_product"/>
                                 <field name="planned_total_gain"/>
+                                <field name="restored_investment"/>
+                                <field name="real_gain"/>
                             </group>
                         </group>
                     </sheet>

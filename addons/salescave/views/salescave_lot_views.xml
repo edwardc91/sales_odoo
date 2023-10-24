@@ -69,6 +69,12 @@
                                 </field>
                             </page>
                             <page string="Ventas" name="sales_page" attrs="{'invisible': [('id', '=', False)]}">
+                                <group name="group_top">
+                                    <group string="Detalles generales de las ventas" name="group_left">
+                                        <field name="restored_investment"/>
+                                        <field name="real_gain"/>
+                                    </group>
+                                </group>
                                 <h3>Ventas</h3>
                                 <field name="sales_ids" context="{'form_view_ref': 'salescave.salescave_sale_form', 'tree_view_ref': 'salescave.salescave_sale_list'}"/>
                             </page>

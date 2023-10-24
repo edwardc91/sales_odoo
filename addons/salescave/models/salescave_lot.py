@@ -89,7 +89,7 @@ class Lot(models.Model):
         for record in self:
             restored_investment = 0
             real_gain = 0
-            for sale in record.sales_products_ids:
+            for sale in record.product_purchases_ids:
                 restored_investment += sale.restored_investment 
                 real_gain += sale.real_gain
             

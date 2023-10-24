@@ -47,12 +47,12 @@ class Sale(models.Model):
                 
             record.total_gain = total_gain
             
-    @api.depends('sales_products_ids')
+    @api.depends('sales_products_ids.total_paid')
     def _compute_total_paid(self):
         for record in self:
             total_paid = 0
             for sale in record.sales_products_ids:
-                total_gain += sale.total_paid
+                total_paid += sale.total_paid
                 
             record.total_paid = total_paid
             
