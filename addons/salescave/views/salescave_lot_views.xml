@@ -18,6 +18,21 @@
                 <form>
                     <sheet>
                         <field name="id" invisible="1"/>
+
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" icon="fa-money" string="Ganacia">
+                                <field string="Ganacia" name="real_gain" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-exchange" string="nversión recuperada">
+                                <field string="Inversión recuperada" name="restored_investment" widget="statinfo"/>
+                            </button>
+                             <button class="oe_stat_button" icon="fa-balance-scale" string="Total pagado">
+                                <field string="Total pagado" name="real_total_sale_value" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-dollar" string="Deuda (En la calle)" >
+                                <field string="Deuda (En la calle)" name="total_debt" widget="statinfo" decoration-danger="total_debt > 0"/>
+                            </button>
+                        </div>
                         <div class="oe_title" colspan="5">
                             <div>
                                 <b>Fecha del lote:</b>

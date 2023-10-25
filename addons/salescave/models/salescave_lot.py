@@ -43,6 +43,9 @@ class Lot(models.Model):
     real_gain = fields.Monetary(
         string='Ganancia real', compute='_compute_restored_investment')
     
+    total_debt = fields.Monetary(
+        string='Total de deuda (en la calle)', compute='_compute_total_debt')
+    
     @api.depends('expenses_ids')
     def _compute_total_expenses(self):
         for record in self:
@@ -95,6 +98,24 @@ class Lot(models.Model):
             
             record.restored_investment = restored_investment
             record.real_gain = real_gain
+            
+    @api.depends('sales_ids.total_debt')
+    def _compute_total_debt(self):
+        for record in self:
+            total_debt = 0
+            for sale in record.sales_ids:
+                total_debt += sale.total_debt
+                
+            record.total_debt = total_debt
+            
+    @api.depends('sales_ids.total_paid')
+    def _compute_real_total_sale_value(self):
+        for record in self:
+            total_paid = 0
+            for sale in record.sales_ids:
+                total_paid += sale.total_paid
+                
+            record.real_total_sale_value = total_paid
             
     def name_get(self):
         result = []
