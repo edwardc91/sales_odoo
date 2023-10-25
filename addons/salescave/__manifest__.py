@@ -26,8 +26,10 @@
 
     # always loaded
     'data': [
+        # security
         'security/salescave_groups.xml',
         'security/ir.model.access.csv',
+        # vistas modelos
         'views/salescave_product_purchase_views.xml',
         'views/salescave_sale_payment_views.xml',
         'views/salescave_sale_product_views.xml',
@@ -35,6 +37,9 @@
         'views/salescave_lot_views.xml',
         'views/salescave_product_views.xml',
         'views/res_partner_views.xml',
+        # reports
+        'reports/salescave_profit_report_views.xml',
+        # menu
         'views/salescave_menu.xml',
     ],
 }

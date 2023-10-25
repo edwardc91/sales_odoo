@@ -3,9 +3,15 @@
 
 
     <!-- Module submenus -->
-    <menuitem name="Administrar" id="salescave_menu_admin" parent="salescave_menu_root"/>
+    <menuitem name="Reportes " id="salescave_menu_reports" parent="salescave_menu_root" sequence="100"/>
+    <menuitem name="Administrar" id="salescave_menu_admin" parent="salescave_menu_root" sequence="200"/>
+
+    <!-- reports child menus -->
+    <menuitem name="Ganancias" id="salescave_menu_report_gains" parent="salescave_menu_reports"
+              action="salescave_profit_report_action_window" sequence="50"/>
 
     <!-- Administrar child menus -->
+
     <menuitem name="Lotes" id="salescave_menu_lots" parent="salescave_menu_admin"
               action="salescave_lot_action_window" sequence="1"/>
 
