@@ -10,6 +10,9 @@
     <menuitem name="Ganancias" id="salescave_menu_report_gains" parent="salescave_menu_reports"
               action="salescave_profit_report_action_window" sequence="50"/>
 
+     <menuitem name="Deudas" id="salescave_menu_report_debts" parent="salescave_menu_reports"
+              action="salescave_debt_report_action_window" sequence="100"/>
+
     <!-- Administrar child menus -->
 
     <menuitem name="Lotes" id="salescave_menu_lots" parent="salescave_menu_admin"

@@ -116,7 +116,7 @@ class SaleProduct(models.Model):
         string='Total pagado', compute='_compute_total_paid')
 
     debt = fields.Monetary(
-        string='Deuda', compute='_compute_debt')
+        string='Deuda', compute='_compute_debt', store=True)
 
     restored_investment = fields.Monetary(
         string='Inversión recuperada', compute='_compute_restored_investment')

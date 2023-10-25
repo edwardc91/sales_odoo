@@ -1,0 +1,24 @@
+<odoo>
+  <data>
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="salescave_debt_report_pivot">
+            <field name="name">Sales Debt Pivot</field>
+            <field name="model">salescave.debt.report</field>
+            <field name="arch" type="xml">
+                <pivot string="Deuda" default_order="real_gain desc">
+                    <field name="lot_name" type="row"/>
+                    <field name="buyer_name" type="row"/>
+                    <field name="product_name" type="col"/>
+                    <field name="debt" type="measure" widget="monetary"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="salescave_debt_report_action_window">
+            <field name="name">Sales Debt</field>
+            <field name="res_model">salescave.debt.report</field>
+            <field name="view_mode">pivot</field>
+            <field name="domain"></field>
+        </record>
+    </data>
+</odoo>
