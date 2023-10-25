@@ -157,7 +157,7 @@ class ProductPurchase(models.Model):
                                             string='Ventas productos')
     
     # compute field
-    current_quantity = fields.Integer(string='Cantidad actual', compute='_compute_current_quantity')
+    current_quantity = fields.Integer(string='Cantidad actual', compute='_compute_current_quantity', store=True)
     
     total_cost = fields.Monetary(
         string='Costo total', compute='_compute_total_cost')

@@ -19,7 +19,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base', 'base_optional_quick_create', 'web_domain_field'],
     
     'application': True,
     'installable': True,
