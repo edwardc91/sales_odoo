@@ -144,6 +144,7 @@ class ProductPurchase(models.Model):
     product_id = fields.Many2one(
         'salescave.product', string='Producto', required=True)
     quantity = fields.Integer(string='Cantidad', default=1, required=True)
+    quantity_lost = fields.Integer(string='Cantidad perdida', default=0, required=True)
 
     currency_id = fields.Many2one('res.currency', string='Moneda de compra')
     cost_x_product = fields.Monetary(
@@ -156,6 +157,8 @@ class ProductPurchase(models.Model):
                                             string='Ventas productos')
     
     # compute field
+    current_quantity = fields.Integer(string='Cantidad actual', compute='_compute_current_quantity')
+    
     total_cost = fields.Monetary(
         string='Costo total', compute='_compute_total_cost')
     
@@ -173,6 +176,15 @@ class ProductPurchase(models.Model):
     
     real_gain = fields.Monetary(
         string='Ganancia real', compute='_compute_restored_investment')
+    
+    @api.depends('sales_products_ids.quantity', 'quantity', 'quantity_lost')
+    def _compute_current_quantity(self):
+        for record in self:
+            quantity_sold = 0
+            for sale in record.sales_products_ids:
+                quantity_sold += sale.quantity
+                
+            record.current_quantity = record.quantity - quantity_sold -record.quantity_lost
 
     @api.depends('cost_x_product', 'quantity')
     def _compute_total_cost(self):

@@ -7,6 +7,7 @@
                 <tree>
                     <field name="product_id"/>
                     <field name="quantity"/>
+                    <field name="current_quantity"/>
                     <field name="cost_x_product"/>
                     <field name="total_cost"/>
                     <field name="sale_price_x_product"/>
@@ -32,6 +33,8 @@
                         <group name="group_top">
                             <group string="Compra" name="group_left">
                                 <field name="quantity"/>
+                                <field name="quantity_lost"/>
+                                <field name="current_quantity"/>
                                 <field name="cost_x_product"/>
                                 <field name="sale_price_x_product"/>
                             </group>
