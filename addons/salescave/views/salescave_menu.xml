@@ -10,8 +10,11 @@
     <menuitem name="Ganancias" id="salescave_menu_report_gains" parent="salescave_menu_reports"
               action="salescave_profit_report_action_window" sequence="50"/>
 
-     <menuitem name="Deudas" id="salescave_menu_report_debts" parent="salescave_menu_reports"
+    <menuitem name="Deudas" id="salescave_menu_report_debts" parent="salescave_menu_reports"
               action="salescave_debt_report_action_window" sequence="100"/>
+
+    <menuitem name="Dinero real" id="salescave_menu_report_real_money" parent="salescave_menu_reports"
+              action="salescave_real_money_report_action_window" sequence="200"/>
 
     <!-- Administrar child menus -->
 

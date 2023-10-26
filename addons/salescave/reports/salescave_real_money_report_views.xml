@@ -1,0 +1,26 @@
+<odoo>
+  <data>
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="salescave_real_money_report_pivot">
+            <field name="name">Sales Real Money Pivot</field>
+            <field name="model">salescave.real.money.report</field>
+            <field name="arch" type="xml">
+                <pivot string="Ganancia" default_order="net_real_gain desc">
+                    <field name="lot_name" type="row"/>
+                    <field name="net_real_gain" type="measure" widget="monetary"/>
+                    <field name="net_restored_investment" type="measure" widget="monetary"/>
+                    <field name="expenses" type="measure" widget="monetary"/>
+                    <field name="total_inversion_retirements_value" type="measure" widget="monetary"/>
+                    <field name="total_gain_retirements_value" type="measure" widget="monetary"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="salescave_real_money_report_action_window">
+            <field name="name">Sales Real Money </field>
+            <field name="res_model">salescave.real.money.report</field>
+            <field name="view_mode">pivot</field>
+            <field name="domain"></field>
+        </record>
+    </data>
+</odoo>

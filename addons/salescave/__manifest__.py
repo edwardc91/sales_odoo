@@ -40,6 +40,7 @@
         # reports
         'reports/salescave_profit_report_views.xml',
         'reports/salescave_debt_report_views.xml',
+        'reports/salescave_real_money_report_views.xml',
         # menu
         'views/salescave_menu.xml',
     ],

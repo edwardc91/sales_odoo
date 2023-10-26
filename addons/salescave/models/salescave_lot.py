@@ -26,7 +26,7 @@ class Lot(models.Model):
 
     # compute fields
     total_expenses = fields.Monetary(
-        string='Gastos totales', compute='_compute_total_expenses')
+        string='Gastos totales', compute='_compute_total_expenses', store=True)
 
     total_investment = fields.Monetary(
         string='Inversión total', compute='_compute_total_investment')
@@ -41,19 +41,19 @@ class Lot(models.Model):
         string='Total ganancia real', compute='_compute_real_total_sale_value')
 
     restored_investment = fields.Monetary(
-        string='Inversión recuperada', compute='_compute_restored_investment')
+        string='Inversión recuperada', compute='_compute_restored_investment', store=True)
 
     real_gain = fields.Monetary(
-        string='Ganancia real', compute='_compute_restored_investment')
+        string='Ganancia real', compute='_compute_restored_investment', store=True)
 
     total_debt = fields.Monetary(
         string='Total de deuda (en la calle)', compute='_compute_total_debt')
 
     total_inversion_retirements_value = fields.Monetary(
-        string='Valor total de retiros de inversion', compute='_compute_total_inversion_retirements_value')
+        string='Valor total de retiros de inversion', compute='_compute_total_inversion_retirements_value', store=True)
 
     total_gain_retirements_value = fields.Monetary(
-        string='Valor total de retiros de inversion', compute='_compute_total_gain_retirements_value')
+        string='Valor total de retiros de inversion', compute='_compute_total_gain_retirements_value', store=True)
 
     @api.depends('expenses_ids')
     def _compute_total_expenses(self):
