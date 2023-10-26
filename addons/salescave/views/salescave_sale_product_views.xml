@@ -4,12 +4,13 @@
             <field name="name">Sales Product List</field>
             <field name="model">salescave.sale.product</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree decoration-danger="debt!=0">
                     <field name="product_purchase_id"/>
                     <field name="quantity"/>
                     <field name="sale_price_x_product"/>
                     <field name="total_sale"/>
                     <field name="total_gain"/>
+                    <field name="debt"/>
                 </tree>
             </field>
         </record>

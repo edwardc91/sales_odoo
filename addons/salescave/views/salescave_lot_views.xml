@@ -98,6 +98,7 @@
                                     <group string="Detalles generales de los retiros" name="group_left">
                                         <field name="total_inversion_retirements_value"/>
                                         <field name="total_gain_retirements_value"/>
+                                        <field name="total_retirements_value"/>
                                     </group>
                                 </group>
                                 <h3>Retiros</h3>

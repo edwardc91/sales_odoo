@@ -55,6 +55,9 @@ class Lot(models.Model):
     total_gain_retirements_value = fields.Monetary(
         string='Valor total de retiros de inversion', compute='_compute_total_gain_retirements_value', store=True)
 
+    total_retirements_value = fields.Monetary(
+        string='Valor total de retiros', compute='_compute_total_retirements_value', store=True)
+
     @api.depends('expenses_ids')
     def _compute_total_expenses(self):
         for record in self:
@@ -146,6 +149,12 @@ class Lot(models.Model):
 
             record.total_gain_retirements_value = total_gain_retirements_value
 
+    @api.depends('total_gain_retirements_value', 'total_inversion_retirements_value')
+    def _compute_total_retirements_value(self):
+        for record in self:
+            record.total_retirements_value = record.total_gain_retirements_value + \
+                record.total_inversion_retirements_value
+
     def name_get(self):
         result = []
         for record in self:
@@ -167,6 +176,8 @@ class ProductPurchase(models.Model):
          'El precio de venta por producto no puede ser negativo'),
         ('sales_price_higher_than_cost', 'CHECK(sale_price_x_product>cost_x_product)',
          'El precio de venta por producto debe ser mayor que el precio de compra'),
+        ('unique_together_lot_product', 'UNIQUE(lot_id, product_id)',
+         'No puede existir varias veces el mismo producto como existencia del mismo lote')
     ]
 
     lot_id = fields.Many2one('salescave.lot', string='Lote')

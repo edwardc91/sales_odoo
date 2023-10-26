@@ -80,6 +80,8 @@ class SaleProduct(models.Model):
     _sql_constraints = [
         ('positive_quantity', 'CHECK(quantity>0)',
          'La cantidad vendida del producto debe ser mayor que cero'),
+        ('unique_together_sale_product', 'UNIQUE(sale_id, product_purchase_id)',
+         'No puede existir mas de una venta para un mismo producto')
     ]
 
     sale_id = fields.Many2one('salescave.sale', string='Venta')
@@ -88,7 +90,7 @@ class SaleProduct(models.Model):
         'Lote ID',
         related='sale_id.lot_id.id',
         readonly=True)
-    
+
     product_purchase_id = fields.Many2one(
         'salescave.product.purchase', string='Venta', required=True)
 
@@ -207,37 +209,37 @@ class SaleProduct(models.Model):
 
             record.restored_investment = restored_investment
             record.real_gain = real_gain
-            
+
     # checks and validations
     def _check_quantity(self, values):
         if "quantity" in values:
             new_quantity = values["quantity"]
-            
+
             if "product_purchase_id" in values:
-                purchase = self.env['salescave.product.purchase'].browse(values["product_purchase_id"])
+                purchase = self.env['salescave.product.purchase'].browse(
+                    values["product_purchase_id"])
             else:
                 purchase = self.product_purchase_id
-                
+
             if new_quantity > purchase.current_quantity:
                 raise ValidationError(
-                    'La cantidad de {}(s) excede las existencias del producto.'.format(purchase.product_id.name)
+                    'La cantidad de {}(s) excede las existencias del producto.'.format(
+                        purchase.product_id.name)
                 )
-                
-    @api.model       
+
+    @api.model
     def create(self, values):
         # checks and validations
         self._check_quantity(values)
 
         return super(SaleProduct, self).create(values)
-         
-    @api.model   
+
+    @api.model
     def write(self, values):
         # checks and validations
         self._check_quantity(values)
 
         return super(SaleProduct, self).write(values)
-
-
 
 
 class SalePayment(models.Model):
@@ -246,7 +248,7 @@ class SalePayment(models.Model):
     _order = 'payment_date desc'
 
     _sql_constraints = [
-        ('positive_quantity', 'CHECK(quantity>0)',
+        ('positive_payment', 'CHECK(payment>0)',
          'La cantidad vendida del producto debe ser mayor que cero'),
     ]
 

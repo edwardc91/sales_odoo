@@ -4,7 +4,7 @@
             <field name="name">Product Purchase List</field>
             <field name="model">salescave.product.purchase</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree decoration-success="current_quantity==0">
                     <field name="product_id"/>
                     <field name="quantity"/>
                     <field name="current_quantity"/>
