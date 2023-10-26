@@ -105,9 +105,8 @@ class Lot(models.Model):
                 restored_investment += sale.restored_investment
                 real_gain += sale.real_gain
 
-            record.restored_investment = restored_investment - \
-                record.total_inversion_retirements_value
-            record.real_gain = real_gain - record.total_gain_retirements_value
+            record.restored_investment = restored_investment
+            record.real_gain = real_gain
 
     @api.depends('sales_ids.total_debt')
     def _compute_total_debt(self):
