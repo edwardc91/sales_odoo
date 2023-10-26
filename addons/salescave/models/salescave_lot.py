@@ -19,6 +19,9 @@ class Lot(models.Model):
     sales_ids = fields.One2many('salescave.sale', 'lot_id',
                                 string='Ventas')
 
+    retirements_ids = fields.One2many('salescave.retirement', 'lot_id',
+                                      string='Retiros')
+
     currency_id = fields.Many2one('res.currency', string='Moneda de compra')
 
     # compute fields
@@ -45,6 +48,12 @@ class Lot(models.Model):
 
     total_debt = fields.Monetary(
         string='Total de deuda (en la calle)', compute='_compute_total_debt')
+
+    total_inversion_retirements_value = fields.Monetary(
+        string='Valor total de retiros de inversion', compute='_compute_total_inversion_retirements_value')
+
+    total_gain_retirements_value = fields.Monetary(
+        string='Valor total de retiros de inversion', compute='_compute_total_gain_retirements_value')
 
     @api.depends('expenses_ids')
     def _compute_total_expenses(self):
@@ -87,7 +96,7 @@ class Lot(models.Model):
 
             record.planned_total_sale_value = planned_total_sale_value - record.total_expenses
 
-    @api.depends('product_purchases_ids.restored_investment', 'product_purchases_ids.real_gain')
+    @api.depends('product_purchases_ids.restored_investment', 'product_purchases_ids.real_gain', 'total_inversion_retirements_value', 'total_gain_retirements_value')
     def _compute_restored_investment(self):
         for record in self:
             restored_investment = 0
@@ -96,8 +105,9 @@ class Lot(models.Model):
                 restored_investment += sale.restored_investment
                 real_gain += sale.real_gain
 
-            record.restored_investment = restored_investment
-            record.real_gain = real_gain
+            record.restored_investment = restored_investment - \
+                record.total_inversion_retirements_value
+            record.real_gain = real_gain - record.total_gain_retirements_value
 
     @api.depends('sales_ids.total_debt')
     def _compute_total_debt(self):
@@ -116,6 +126,26 @@ class Lot(models.Model):
                 total_paid += sale.total_paid
 
             record.real_total_sale_value = total_paid
+
+    @api.depends('retirements_ids')
+    def _compute_total_inversion_retirements_value(self):
+        for record in self:
+            total_inversion_retirements_value = 0
+            for retirement in record.retirements_ids:
+                if retirement.take_from == 'inversion':
+                    total_inversion_retirements_value += retirement.value
+
+            record.total_inversion_retirements_value = total_inversion_retirements_value
+
+    @api.depends('retirements_ids')
+    def _compute_total_gain_retirements_value(self):
+        for record in self:
+            total_gain_retirements_value = 0
+            for retirement in record.retirements_ids:
+                if retirement.take_from == 'gain':
+                    total_gain_retirements_value += retirement.value
+
+            record.total_gain_retirements_value = total_gain_retirements_value
 
     def name_get(self):
         result = []
@@ -244,3 +274,38 @@ class Expense(models.Model):
 
     currency_id = fields.Many2one('res.currency', string='Moneda de compra')
     value = fields.Monetary(string='Valor del gasto', required=True)
+
+
+class Retirement(models.Model):
+    _name = 'salescave.retirement'
+    _description = 'Lot money retirement'
+    _order = 'date desc'
+
+    _sql_constraints = [
+        ('positive_value', 'CHECK(value>0)',
+         'La cantidad del retiro debe ser mayor que cero'),
+    ]
+
+    lot_id = fields.Many2one('salescave.lot', string='Lote')
+
+    name = fields.Char(string='Descripción del retiro', required=True)
+    date = fields.Date(string='Fecha del retiro', required=True)
+
+    take_from_choices = [
+        ('inversion', 'Inversión'),
+        ('gain', 'Ganancia')
+    ]
+
+    take_from = fields.Selection(
+        take_from_choices, string="Tomar de", required=True)
+
+    destiny_choices = [
+        ('inversion', 'Inversión'),
+        ('others', 'Otros')
+    ]
+
+    destiny = fields.Selection(
+        destiny_choices, string="Destino", required=True)
+
+    currency_id = fields.Many2one('res.currency', string='Moneda de compra')
+    value = fields.Monetary(string='Valor del retiro', required=True)

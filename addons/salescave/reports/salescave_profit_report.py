@@ -9,6 +9,7 @@ class Profit(models.Model):
     _auto = False
 
     lot_name = fields.Char(string='Lote', readonly=True)
+    lot_date = fields.Date(string="Fecha del lote", readonly=True)
     product_name = fields.Char(string='Producto', readonly=True)
     total_cost = fields.Float(string='Costo Total', readonly=True)
     restored_investment = fields.Float(string='Inversión recuperada', readonly=True)
@@ -18,6 +19,7 @@ class Profit(models.Model):
         select = """
              SELECT ROW_NUMBER() OVER (order by product_purchase.id)::integer AS id,
                         CAST(lot.purchase_date AS VARCHAR(25)) AS lot_name,
+                        lot.purchase_date AS lot_date,
                         product.name AS product_name,
                         product_purchase.total_cost AS total_cost,
                         product_purchase.restored_investment AS restored_investment,

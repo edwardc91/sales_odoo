@@ -93,6 +93,48 @@
                                 <h3>Ventas</h3>
                                 <field name="sales_ids" context="{'form_view_ref': 'salescave.salescave_sale_form', 'tree_view_ref': 'salescave.salescave_sale_list'}"/>
                             </page>
+                            <page string="Retiros" name="retirements_page">
+                                <group name="group_top">
+                                    <group string="Detalles generales de los retiros" name="group_left">
+                                        <field name="total_inversion_retirements_value"/>
+                                        <field name="total_gain_retirements_value"/>
+                                    </group>
+                                </group>
+                                <h3>Retiros</h3>
+                                <field name="retirements_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="date"/>
+                                        <field name="value"/>
+                                        <field name="take_from"/>
+                                        <field name="destiny"/>
+                                    </tree>
+
+                                    <form>
+                                        <div class="oe_title">
+                                            <div>
+                                                <b>Descripción:</b>
+                                            </div>
+                                            <h1>
+                                                <field name="name" placeholder="Introduzca una descripción del retiro"/> 
+                                            </h1>
+                                            <h4>
+                                                <label for="date" string="Fecha "/>
+                                                <field name="date"/>
+                                                <br/>
+                                                <label for="take_from" string="Tomar de "/>
+                                                <field name="take_from"/>
+                                            </h4>      
+                                        </div>
+                                        <group name="group_top">
+                                            <group string="Retiro" name="group_left">
+                                                <field name="destiny"/>
+                                                <field name="value"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
                         </notebook>
                     </sheet>
                 </form>

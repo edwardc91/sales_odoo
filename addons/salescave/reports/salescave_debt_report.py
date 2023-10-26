@@ -9,6 +9,7 @@ class Debt(models.Model):
     _auto = False
 
     lot_name = fields.Char(string='Lote', readonly=True)
+    lot_date = fields.Date(string="Fecha del lote", readonly=True)
     product_name = fields.Char(string='Producto', readonly=True)
     buyer_name = fields.Char(string='Comprador', readonly=True)
     debt = fields.Float(string='Deuda', readonly=True)
@@ -17,6 +18,7 @@ class Debt(models.Model):
         select = """
              SELECT ROW_NUMBER() OVER (order by product_sale.id)::integer AS id,
                         CAST(lot.purchase_date AS VARCHAR(25)) AS lot_name,
+                        lot.purchase_date AS lot_date,
                         product.name AS product_name,
                         product_sale.debt AS debt,
                         buyer.name AS buyer_name
