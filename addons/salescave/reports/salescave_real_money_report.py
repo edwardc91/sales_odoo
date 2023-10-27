@@ -29,7 +29,7 @@ class RealMoney(models.Model):
                         SUM(product_sale.restored_investment) AS sum_restored_investment,
                         SUM(product_sale.real_gain) AS sum_real_gain,
 						(SUM(product_sale.restored_investment) + total_expenses) - total_inversion_retirements_value AS net_restored_investment,
-                        SUM(product_sale.real_gain) - total_expenses - total_gain_retirements_value AS net_real_gain
+                        SUM(product_sale.real_gain) - (total_expenses + total_gain_retirements_value) AS net_real_gain
         """
 
         from_clause = """
