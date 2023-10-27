@@ -176,8 +176,6 @@ class ProductPurchase(models.Model):
          'El precio de venta por producto no puede ser negativo'),
         ('sales_price_higher_than_cost', 'CHECK(sale_price_x_product>cost_x_product)',
          'El precio de venta por producto debe ser mayor que el precio de compra'),
-        ('unique_together_lot_product', 'UNIQUE(lot_id, product_id)',
-         'No puede existir varias veces el mismo producto como existencia del mismo lote')
     ]
 
     lot_id = fields.Many2one('salescave.lot', string='Lote')
@@ -264,7 +262,7 @@ class ProductPurchase(models.Model):
     def name_get(self):
         result = []
         for record in self:
-            rec_name = record.product_id.name
+            rec_name = "{} {}".format(record.product_id.name, record.cost_x_product)
             result.append((record.id, rec_name))
         return result
 
