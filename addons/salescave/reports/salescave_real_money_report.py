@@ -16,7 +16,7 @@ class RealMoney(models.Model):
     total_inversion_retirements_value = fields.Float(string='Retiros desde inversión', readonly=True)
     total_gain_retirements_value = fields.Float(string='Retiros desde ganancia', readonly=True)
     net_restored_investment = fields.Float(string='Inversión recuperada neta', readonly=True)
-    net_real_gain = fields.Float(string='Ganancia recuperada neta', readonly=True)
+    net_real_gain = fields.Float(string='Ganancia neta', readonly=True)
 
     def _query(self):
         select = """

@@ -230,14 +230,14 @@ class SaleProduct(models.Model):
     @api.model
     def create(self, values):
         # checks and validations
-        self._check_quantity(values)
+        # self._check_quantity(values)
 
         return super(SaleProduct, self).create(values)
 
     @api.model
     def write(self, values):
         # checks and validations
-        self._check_quantity(values)
+        # self._check_quantity(values)
 
         return super(SaleProduct, self).write(values)
 
