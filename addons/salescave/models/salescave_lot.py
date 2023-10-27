@@ -25,6 +25,9 @@ class Lot(models.Model):
     currency_id = fields.Many2one('res.currency', string='Moneda de compra')
 
     # compute fields
+    expenses_by_lost = fields.Monetary(
+        string='Gastos por perdidas', compute='_compute_expenses_by_lost')
+
     total_expenses = fields.Monetary(
         string='Gastos totales', compute='_compute_total_expenses', store=True)
 
@@ -41,10 +44,10 @@ class Lot(models.Model):
         string='Total ganancia real', compute='_compute_real_total_sale_value')
 
     restored_investment = fields.Monetary(
-        string='Inversión recuperada', compute='_compute_restored_investment', store=True)
+        string='Inversión recuperada', compute='_compute_restored_investment')
 
     real_gain = fields.Monetary(
-        string='Ganancia real', compute='_compute_restored_investment', store=True)
+        string='Ganancia real', compute='_compute_restored_investment')
 
     total_debt = fields.Monetary(
         string='Total de deuda (en la calle)', compute='_compute_total_debt')
@@ -58,14 +61,25 @@ class Lot(models.Model):
     total_retirements_value = fields.Monetary(
         string='Valor total de retiros', compute='_compute_total_retirements_value', store=True)
 
-    @api.depends('expenses_ids')
+    @api.depends('product_purchases_ids')
+    def _compute_expenses_by_lost(self):
+        for record in self:
+            products_lost = self.env['salescave.product.purchase'].search(
+                [('quantity_lost', '>', 0), ('lot_id', '=', record.id)])
+            lost_value = 0
+            for product in products_lost:
+                lost_value += product.quantity_lost * product.cost_x_product
+
+            record.expenses_by_lost = lost_value
+
+    @api.depends('expenses_ids', 'expenses_by_lost')
     def _compute_total_expenses(self):
         for record in self:
             total_expense = 0
             for expense in record.expenses_ids:
                 total_expense += expense.value
 
-            record.total_expenses = total_expense
+            record.total_expenses = total_expense + record.expenses_by_lost
 
     @api.depends('product_purchases_ids')
     def _compute_total_investment(self):
@@ -99,7 +113,7 @@ class Lot(models.Model):
 
             record.planned_total_sale_value = planned_total_sale_value - record.total_expenses
 
-    @api.depends('product_purchases_ids.restored_investment', 'product_purchases_ids.real_gain', 'total_inversion_retirements_value', 'total_gain_retirements_value')
+    @api.depends('product_purchases_ids')
     def _compute_restored_investment(self):
         for record in self:
             restored_investment = 0
@@ -213,12 +227,12 @@ class ProductPurchase(models.Model):
         string='Ganancia total planificada', compute='_compute_planned_total_gain')
 
     restored_investment = fields.Monetary(
-        string='Inversión recuperada', compute='_compute_restored_investment', store=True)
+        string='Inversión recuperada', compute='_compute_restored_investment')
 
     real_gain = fields.Monetary(
-        string='Ganancia real', compute='_compute_restored_investment', store=True)
+        string='Ganancia real', compute='_compute_restored_investment')
 
-    @api.depends('sales_products_ids.quantity', 'quantity', 'quantity_lost')
+    @api.depends('sales_products_ids.quantity', 'quantity', 'quantity_lost', 'sales_products_ids')
     def _compute_current_quantity(self):
         for record in self:
             quantity_sold = 0
@@ -247,7 +261,7 @@ class ProductPurchase(models.Model):
         for record in self:
             record.planned_total_gain = record.planned_gain_x_product * record.quantity
 
-    @api.depends('sales_products_ids')
+    @api.depends('sales_products_ids.restored_investment', 'sales_products_ids.real_gain')
     def _compute_restored_investment(self):
         for record in self:
             restored_investment = 0
@@ -262,7 +276,8 @@ class ProductPurchase(models.Model):
     def name_get(self):
         result = []
         for record in self:
-            rec_name = "{} {}".format(record.product_id.name, record.cost_x_product)
+            rec_name = "{} {}".format(
+                record.product_id.name, record.cost_x_product)
             result.append((record.id, rec_name))
         return result
 

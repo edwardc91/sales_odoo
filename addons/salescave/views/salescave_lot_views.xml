@@ -45,6 +45,7 @@
                             <page string="General" name="general_page">
                                 <group name="group_top">
                                     <group string="Inversión gastos" name="group_left">
+                                        <field name="expenses_by_lost"/>
                                         <field name="total_expenses"/>
                                         <field name="total_investment"/>
                                         <field name="total_investment_expenses"/>

@@ -36,7 +36,7 @@ class Sale(models.Model):
     total_debt = fields.Monetary(
         string='Total de deuda (en la calle)', compute='_compute_total_debt')
 
-    @api.depends('sales_products_ids')
+    @api.depends('sales_products_ids.total_sale', 'sales_products_ids')
     def _compute_total_sale(self):
         for record in self:
             total_sale = 0
@@ -45,7 +45,7 @@ class Sale(models.Model):
 
             record.total_sale = total_sale
 
-    @api.depends('sales_products_ids')
+    @api.depends('sales_products_ids.total_gain', 'sales_products_ids')
     def _compute_total_gain(self):
         for record in self:
             total_gain = 0
@@ -54,7 +54,7 @@ class Sale(models.Model):
 
             record.total_gain = total_gain
 
-    @api.depends('sales_products_ids.total_paid')
+    @api.depends('sales_products_ids.total_paid', 'sales_products_ids')
     def _compute_total_paid(self):
         for record in self:
             total_paid = 0
@@ -63,7 +63,7 @@ class Sale(models.Model):
 
             record.total_paid = total_paid
 
-    @api.depends('sales_products_ids')
+    @api.depends('sales_products_ids', 'sales_products_ids.debt')
     def _compute_total_debt(self):
         for record in self:
             total_debt = 0
@@ -121,10 +121,10 @@ class SaleProduct(models.Model):
         string='Deuda', compute='_compute_debt', store=True)
 
     restored_investment = fields.Monetary(
-        string='Inversión recuperada', compute='_compute_restored_investment')
+        string='Inversión recuperada', compute='_compute_restored_investment', store=True)
 
     real_gain = fields.Monetary(
-        string='Ganancia real', compute='_compute_restored_investment')
+        string='Ganancia real', compute='_compute_restored_investment', store=True)
 
     # Compute methods
     # @api.depends('sale_id')
@@ -143,7 +143,7 @@ class SaleProduct(models.Model):
         for record in self:
             record.total_sale = record.sale_price_x_product * record.quantity
 
-    @api.depends('sale_price_x_product', 'product_purchase_id')
+    @api.depends('sale_price_x_product', 'product_purchase_id', 'product_purchase_id.cost_x_product')
     def _compute_gain_x_product(self):
         for record in self:
             gain_x_product = 0
@@ -153,7 +153,7 @@ class SaleProduct(models.Model):
 
             record.gain_x_product = gain_x_product
 
-    @api.depends('total_sale', 'product_purchase_id')
+    @api.depends('total_sale', 'product_purchase_id', 'quantity', 'product_purchase_id.cost_x_product')
     def _compute_total_gain(self):
         for record in self:
             total_gain = 0
@@ -163,7 +163,7 @@ class SaleProduct(models.Model):
 
             record.total_gain = total_gain
 
-    @api.depends('payments_ids')
+    @api.depends('payments_ids', 'payments_ids.payment')
     def _compute_total_paid(self):
         for record in self:
             total_paid = 0
