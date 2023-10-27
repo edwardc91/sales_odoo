@@ -90,6 +90,11 @@ class SaleProduct(models.Model):
         'Lote ID',
         related='sale_id.lot_id.id',
         readonly=True)
+    
+    product_purchase_id_domain = fields.Char(
+        string="Dominio de lote",
+        compute="_compute_product_purchase_id_domain"
+    )
 
     product_purchase_id = fields.Many2one(
         'salescave.product.purchase', string='Venta', required=True)
@@ -127,16 +132,19 @@ class SaleProduct(models.Model):
         string='Ganancia real', compute='_compute_restored_investment', store=True)
 
     # Compute methods
-    # @api.depends('sale_id')
-    # def _compute_product_purchase_id_domain(self):
-    #     for rec in self:
-    #         _logger.debug(
-    #             'Updating product_purchase_id domain for lot %s', rec.sale_id.lot_id.purchase_date)
-    #         new_domain = json.dumps(
-    #             [('lot_id', '=', rec.sale_id.lot_id.id), ('current_quantity', '>', 0)])
-    #         _logger.debug('Updating domain value with %s', new_domain)
+    @api.depends('sale_id')
+    def _compute_product_purchase_id_domain(self):
+        for rec in self:
+            new_domain = []
+            if rec.sale_id.lot_id:
+                products_ids =  rec.sale_id.lot_id.product_purchases_ids.ids
+            _logger.debug(
+                'Updating product_purchase_id domain for lot %s', rec.sale_id.lot_id.purchase_date)
+            new_domain = json.dumps(
+                [('id', 'in', products_ids), ('current_quantity', '>', 0)])
+            _logger.debug('Updating domain value with %s', new_domain)
 
-    #         rec.product_purchase_id_domain = new_domain
+            rec.product_purchase_id_domain = new_domain
 
     @api.depends('sale_price_x_product', 'quantity')
     def _compute_total_sale(self):

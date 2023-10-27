@@ -27,8 +27,8 @@
                             </div>
                             <h1>
                                 <!-- <field name="product_purchase_id_domain" invisible="1"/> -->
-                                <field name="lot_integer_id" invisible="1"/>
-                                <field name="product_purchase_id" options="{'no_quick_create': True}" placeholder="Escoja el producto" domain=" [('lot_id', '=', 'lot_integer_id'), ('current_quantity', '>', 0)]" /> 
+                                <field name="product_purchase_id_domain" invisible="1"/>
+                                <field name="product_purchase_id" options="{'no_quick_create': True}" placeholder="Escoja el producto" domain="product_purchase_id_domain" /> 
                             </h1>  
                         </div>
                         <group name="group_top">
