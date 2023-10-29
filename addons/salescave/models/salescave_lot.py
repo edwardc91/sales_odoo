@@ -192,10 +192,10 @@ class ProductPurchase(models.Model):
          'El precio de venta por producto debe ser mayor que el precio de compra'),
     ]
 
-    lot_id = fields.Many2one('salescave.lot', string='Lote')
+    lot_id = fields.Many2one('salescave.lot', string='Lote', ondelete='cascade')
 
     product_id = fields.Many2one(
-        'salescave.product', string='Producto', required=True)
+        'salescave.product', string='Producto', required=True, ondelete='restrict')
     quantity = fields.Integer(string='Cantidad', default=1, required=True)
     quantity_lost = fields.Integer(
         string='Cantidad perdida', default=0, required=True)
@@ -291,7 +291,7 @@ class Expense(models.Model):
          'El valor del gasto debe ser mayor que cero'),
     ]
 
-    lot_id = fields.Many2one('salescave.lot', string='Lote')
+    lot_id = fields.Many2one('salescave.lot', string='Lote', ondelete='cascade')
 
     name = fields.Char(string='Descripción del gasto', required=True)
 
@@ -309,7 +309,7 @@ class Retirement(models.Model):
          'La cantidad del retiro debe ser mayor que cero'),
     ]
 
-    lot_id = fields.Many2one('salescave.lot', string='Lote')
+    lot_id = fields.Many2one('salescave.lot', string='Lote', ondelete='cascade')
 
     name = fields.Char(string='Descripción del retiro', required=True)
     date = fields.Date(string='Fecha del retiro', required=True)

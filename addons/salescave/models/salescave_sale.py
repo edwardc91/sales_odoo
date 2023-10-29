@@ -15,7 +15,7 @@ class Sale(models.Model):
     _description = 'Buyer sale for a Lot'
     _order = 'sale_date desc'
 
-    lot_id = fields.Many2one('salescave.lot', string='Lote')
+    lot_id = fields.Many2one('salescave.lot', string='Lote', ondelete='cascade')
     buyer_id = fields.Many2one('res.partner', string='Comprador')
     sale_date = fields.Date(string='Fecha de venta', required=True)
 
@@ -84,7 +84,7 @@ class SaleProduct(models.Model):
          'No puede existir mas de una venta para un mismo producto')
     ]
 
-    sale_id = fields.Many2one('salescave.sale', string='Venta')
+    sale_id = fields.Many2one('salescave.sale', string='Venta', ondelete='cascade')
 
     lot_integer_id = fields.Integer(
         'Lote ID',
@@ -97,7 +97,7 @@ class SaleProduct(models.Model):
     )
 
     product_purchase_id = fields.Many2one(
-        'salescave.product.purchase', string='Venta', required=True)
+        'salescave.product.purchase', string='Venta', required=True, ondelete='restrict')
 
     quantity = fields.Integer(
         string='Cantidad vendida', default=1, required=True)
@@ -261,7 +261,7 @@ class SalePayment(models.Model):
     ]
 
     sale_product_id = fields.Many2one(
-        'salescave.sale.product', string='Venta/Producto')
+        'salescave.sale.product', string='Venta/Producto', ondelete='cascade')
     payment_date = fields.Date(string='Fecha de venta', required=True)
 
     currency_id = fields.Many2one('res.currency', string='Moneda de venta')
