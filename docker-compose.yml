@@ -34,6 +34,7 @@ services:
     volumes:
       - ./config:/etc/odoo
       - ./addons:/mnt/extra-addons
+      - dbbckups:/var/lib/odoo/backups:rw
 
     # Odoo Environment Variables
     # --------
@@ -68,4 +69,6 @@ services:
 volumes:
   dbdata:
     name: sales-odoo-dbdata
+  dbbckups:
+    name: sales-odoo-dbbckups
 

@@ -20,4 +20,4 @@ RUN pip3 install --upgrade pip && \
 
 USER odoo
 
-RUN mkdir /var/lib/odoo/backups
+RUN mkdir -p /var/lib/odoo/backups
