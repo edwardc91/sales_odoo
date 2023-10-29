@@ -180,6 +180,7 @@ class Lot(models.Model):
 class ProductPurchase(models.Model):
     _name = 'salescave.product.purchase'
     _description = 'Product purchase on a Lot'
+    _order = 'product_id asc'
 
     _sql_constraints = [
         ('positive_quantity', 'CHECK(quantity>0)',
