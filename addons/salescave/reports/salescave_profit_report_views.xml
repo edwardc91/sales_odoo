@@ -6,10 +6,10 @@
             <field name="model">salescave.profit.report</field>
             <field name="arch" type="xml">
                 <pivot string="Ganancia" default_order="real_gain desc">
-                    <field name="product_name" type="row"/>
+                    <field name="lot_name" type="row"/>
                     <field name="total_cost" type="measure" widget="monetary"/>
-                    <field name="restored_investment" type="measure" widget="monetary"/>
-                    <field name="real_gain" type="measure" widget="monetary"/>
+                    <!-- <field name="restored_investment" type="measure" widget="monetary"/>
+                    <field name="real_gain" type="measure" widget="monetary"/> -->
                 </pivot>
             </field>
         </record>

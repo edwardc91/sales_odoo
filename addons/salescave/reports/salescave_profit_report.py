@@ -12,8 +12,8 @@ class Profit(models.Model):
     lot_date = fields.Date(string="Fecha del lote", readonly=True)
     product_name = fields.Char(string='Producto', readonly=True)
     total_cost = fields.Float(string='Costo Total', readonly=True)
-    restored_investment = fields.Float(string='Inversión recuperada', readonly=True)
-    real_gain = fields.Float(string='Ganancia real', readonly=True)
+    # restored_investment = fields.Float(string='Inversión recuperada', readonly=True)
+    # real_gain = fields.Float(string='Ganancia real', readonly=True)
 
     def _query(self):
         select = """
@@ -21,9 +21,7 @@ class Profit(models.Model):
                         CAST(lot.purchase_date AS VARCHAR(25)) AS lot_name,
                         lot.purchase_date AS lot_date,
                         product.name AS product_name,
-                        product_purchase.total_cost AS total_cost,
-                        product_purchase.restored_investment AS restored_investment,
-                        product_purchase.real_gain AS real_gain
+                        product_purchase.total_cost AS total_cost
         """
 
         from_clause = """

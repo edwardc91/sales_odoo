@@ -5,7 +5,7 @@
             <field name="name">Sales Real Money Pivot</field>
             <field name="model">salescave.real.money.report</field>
             <field name="arch" type="xml">
-                <pivot string="Ganancia" default_order="net_real_gain desc">
+                <pivot string="Ganancia" default_order="lot_name desc">
                     <field name="lot_name" type="row"/>
                     <field name="net_real_gain" type="measure" widget="monetary"/>
                     <field name="net_restored_investment" type="measure" widget="monetary"/>
