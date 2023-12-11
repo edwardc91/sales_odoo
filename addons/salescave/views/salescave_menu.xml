@@ -16,10 +16,16 @@
     <menuitem name="Dinero real" id="salescave_menu_report_real_money" parent="salescave_menu_reports"
               action="salescave_real_money_report_action_window" sequence="200"/>
 
+    <menuitem name="Balance" id="salescave_menu_report_general_balance" parent="salescave_menu_reports"
+              action="salescave_general_balance_report_action_window" sequence="300"/>
+
     <!-- Administrar child menus -->
 
     <menuitem name="Lotes" id="salescave_menu_lots" parent="salescave_menu_admin"
               action="salescave_lot_action_window" sequence="1"/>
+
+    <menuitem name="Retiros" id="salescave_menu_retirement" parent="salescave_menu_admin"
+              action="salescave_general_retirement_action_window" sequence="50"/>
 
     <menuitem name="Compradores" id="salescave_menu_buyers" parent="salescave_menu_admin"
               action="salescave_buyer_action_window" sequence="100"/>

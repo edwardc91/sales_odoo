@@ -94,6 +94,7 @@
                                 <h3>Ventas</h3>
                                 <field name="sales_ids" context="{'form_view_ref': 'salescave.salescave_sale_form', 'tree_view_ref': 'salescave.salescave_sale_list'}"/>
                             </page>
+                            <!--
                             <page string="Retiros" name="retirements_page">
                                 <group name="group_top">
                                     <group string="Detalles generales de los retiros" name="group_left">
@@ -137,6 +138,7 @@
                                     </form>
                                 </field>
                             </page>
+                            -->
                         </notebook>
                     </sheet>
                 </form>

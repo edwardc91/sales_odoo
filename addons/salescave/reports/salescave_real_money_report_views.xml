@@ -10,8 +10,6 @@
                     <field name="net_real_gain" type="measure" widget="monetary"/>
                     <field name="net_restored_investment" type="measure" widget="monetary"/>
                     <field name="expenses" type="measure" widget="monetary"/>
-                    <field name="total_inversion_retirements_value" type="measure" widget="monetary"/>
-                    <field name="total_gain_retirements_value" type="measure" widget="monetary"/>
                 </pivot>
             </field>
         </record>

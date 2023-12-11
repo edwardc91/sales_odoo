@@ -13,8 +13,6 @@ class RealMoney(models.Model):
     sum_restored_investment = fields.Float(string='Inversión recuperada', readonly=True)
     sum_real_gain = fields.Float(string='Ganancia real', readonly=True)
     expenses = fields.Float(string='Gastos', readonly=True)
-    total_inversion_retirements_value = fields.Float(string='Retiros desde inversión', readonly=True)
-    total_gain_retirements_value = fields.Float(string='Retiros desde ganancia', readonly=True)
     net_restored_investment = fields.Float(string='Inversión recuperada neta', readonly=True)
     net_real_gain = fields.Float(string='Ganancia neta', readonly=True)
 
@@ -24,19 +22,17 @@ class RealMoney(models.Model):
                         CAST(lot.purchase_date AS VARCHAR(25)) AS lot_name,
                         lot.purchase_date AS lot_date,
                         lot.total_expenses AS expenses,
-                        lot.total_inversion_retirements_value AS total_inversion_retirements_value,
-                        lot.total_gain_retirements_value AS total_gain_retirements_value,
                         SUM(product_sale.restored_investment) AS sum_restored_investment,
                         SUM(product_sale.real_gain) AS sum_real_gain,
-						(SUM(product_sale.restored_investment) + total_expenses) - total_inversion_retirements_value AS net_restored_investment,
-                        SUM(product_sale.real_gain) - (total_expenses + total_gain_retirements_value) AS net_real_gain
+						SUM(product_sale.restored_investment) + total_expenses AS net_restored_investment,
+                        SUM(product_sale.real_gain) - (total_expenses) AS net_real_gain
         """
 
         from_clause = """
                 FROM salescave_sale_product AS product_sale
                 INNER JOIN salescave_product_purchase AS product_purchase ON product_purchase.id=product_sale.product_purchase_id
                 INNER JOIN salescave_lot AS lot ON product_purchase.lot_id = lot.id
-                GROUP BY lot.id, lot_name, lot_date, expenses, total_inversion_retirements_value, total_gain_retirements_value 
+                GROUP BY lot.id, lot_name, lot_date, expenses
         """
 
         expression = """

@@ -7,6 +7,8 @@ access_salescave.sale_manager,access.salescave.sale.manager,model_salescave_sale
 access_salescave.sale.product_manager,access.salescave.sale.product.manager,model_salescave_sale_product,salescave_group_manager,1,1,1,1
 access_salescave.sale.payment_manager,access.salescave.sale.payment.manager,model_salescave_sale_payment,salescave_group_manager,1,1,1,1
 access_salescave.retirement_manager,access.salescave.retirement.manager,model_salescave_retirement,salescave_group_manager,1,1,1,1
+access_salescave.general.retirement_manager,access.salescave.general.retirement.manager,model_salescave_general_retirement,salescave_group_manager,1,1,1,1
 access_salescave.profit.report_manager,access.salescave.profit.report.manager,model_salescave_profit_report,salescave_group_manager,1,1,1,1
 access_salescave.debt.report_manager,access.salescave.debt.report.manager,model_salescave_debt_report,salescave_group_manager,1,1,1,1
 access_salescave.real.money.report_manager,access.salescave.real.money.report.manager,model_salescave_real_money_report,salescave_group_manager,1,1,1,1
+access_salescave.general.balance.report_manager,access.salescave.general.balance.report.manager,model_salescave_general_balance_report,salescave_group_manager,1,1,1,1

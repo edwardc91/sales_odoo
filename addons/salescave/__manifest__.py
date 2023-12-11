@@ -35,12 +35,14 @@
         'views/salescave_sale_product_views.xml',
         'views/salescave_sale_views.xml',
         'views/salescave_lot_views.xml',
+        'views/salescave_general_retirement_views.xml',
         'views/salescave_product_views.xml',
         'views/res_partner_views.xml',
         # reports
         'reports/salescave_profit_report_views.xml',
         'reports/salescave_debt_report_views.xml',
         'reports/salescave_real_money_report_views.xml',
+        'reports/salescave_general_balance_report_views.xml',
         # menu
         'views/salescave_menu.xml',
     ],
